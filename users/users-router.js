@@ -5,7 +5,7 @@ const Users = require('../users/users-model');
 
 const router = express.Router();
 
-router.get('/', restricted, checkRole('DEPARTMENT'), async (req, res, next) => {
+router.get('/', restricted, checkRole('HR'), async (req, res, next) => {
 
     try {
         const results = await Users.get();
@@ -23,13 +23,11 @@ router.delete('/logout', (req, res) => {
     localStorage.clear();
 });
 
-
 const errorHandler = ((error, req, res, next) =>{
     res.status(500).json({ error: 'Server error: check data and retry' });
     next();
 });
 
 router.use(errorHandler);
-
 
 module.exports = router;

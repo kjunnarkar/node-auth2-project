@@ -15,6 +15,6 @@ function findBy(user) {
 }
 
 function get() {
-    return db('users').select('users.id', 'users.username');
+    return db('users').select('users.id', 'users.username', 'users.department');
 }
 

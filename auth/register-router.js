@@ -13,9 +13,11 @@ router.post('/', async (req, res, next) => {
    user.password = hash;
 
     try {
-        const registered = await Users.add(user); 
-        const token = generateToken(registered);
-        res.status(201).json({ registered_user: registered, token: token });
+        const [registered] = await Users.add(user); 
+        user.id = registered;
+        const token = generateToken(user);
+        delete user.password;
+        res.status(201).json({ registered_user: user, token: token });
     }
     catch (error) {
         next(error);
@@ -27,7 +29,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        roles: ['DEPARTMENT']
+        roles: user.department
     };
 
     const options = {
@@ -37,6 +39,7 @@ function generateToken(user) {
     const token = jwt.sign(payload, secrets.JWT_SECRET, options);
     return token;
 }
+
 
 const errorHandler = ((error, req, res, next) => {
     res.status(500).json({ error: 'Server error: Recheck data and retry' });

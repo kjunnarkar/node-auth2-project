@@ -32,7 +32,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        roles: ['DEPARTMENT']
+        roles: user.department
     }
 
     const options = {
@@ -42,6 +42,7 @@ function generateToken(user) {
     const token = jwt.sign(payload, secrets.JWT_SECRET, options);
     return token;
 }
+
 
 const errorHandler = ((error, req, res, next) => {
     res.status(500).json({ error: 'Server error: check data and retry' });

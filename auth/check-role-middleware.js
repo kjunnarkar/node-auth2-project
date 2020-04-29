@@ -1,6 +1,6 @@
-module.exports = role => {
+module.exports = roles => {
     return function (req, res, next) {
-        if (req.decodedToken.roles && req.decodedToken.roles.includes(role)) {
+        if (req.decodedToken.roles && req.decodedToken.roles.includes(roles)) {
             next();
         }
         else if (req.decodedToken.roles && req.decodedToken.roles.includes('ADMIN')) {
